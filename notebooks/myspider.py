@@ -1,16 +1,22 @@
 import scrapy
 
 
-class BrickSetSpider(scrapy.Spider):
-    name = "myspyder"
-    
-    
+class QuotesSpider(scrapy.Spider):
+    name = "spider"
+
     def start_requests(self):
-        return [
-            scrapy.Request('http://esmarketingdigital.com')
+        urls = [
+            'http://esmarketingdigital.es/',
+            'http://esmarketingdigital.es/',
         ]
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        anchors = response.css('a::text').extract()
-        for a in anchors:
-        	yield {'text': a}
+        page = response.url.split("/")[-2]
+        filename = f'esmarketingdigital_copy.html'
+        #filename = f'spyder-{page}.html'
+        with open(filename, 'wb') as f:
+            f.write(response.body)
+        self.log(f'Saved file {filename}')
+ 
