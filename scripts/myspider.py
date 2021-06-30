@@ -1,3 +1,7 @@
+# My Spider
+# ==============================================================================
+# Web Scraping with Scrappy
+# ==============================================================================
 import scrapy
 
 
@@ -11,6 +15,9 @@ class MySpider(scrapy.Spider):
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
+
+    # Scrap Web Page and Save  Code in File
+    # ==============================================================================        
 
     def parse(self, response):
         page = response.url.split("/")[-2]
